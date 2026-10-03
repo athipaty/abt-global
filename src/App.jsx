@@ -276,9 +276,9 @@ function Included() {
           <p className="text-gray-500 mb-6">ครบจบในราคาเดียว ไม่มีค่าใช้จ่ายแอบแฝง</p>
           <a href="#pricing" className="btn-primary">ดูราคา</a>
         </div>
-        <ul className="space-y-3">
+        <ul className="space-y-3 w-fit max-w-full mx-auto sm:mx-0 text-left">
           {INCLUDED.map(item => (
-            <li key={item} className="flex items-start justify-center sm:justify-start gap-2.5 text-gray-700 text-center sm:text-left">
+            <li key={item} className="flex items-start gap-2.5 text-gray-700">
               <span className="text-primary font-bold mt-0.5">✓</span>
               <span className="text-sm">{item}</span>
             </li>
@@ -313,9 +313,9 @@ function Pricing() {
                 <p className={`text-3xl font-extrabold text-gray-900 ${pkg.highlight ? 'mt-3' : 'mt-2'}`}>
                   ฿{pkg.price}<span className="text-sm font-medium text-gray-400"> / ปี</span>
                 </p>
-                <ul className="mt-5 space-y-2.5 flex-1">
+                <ul className="mt-5 space-y-2.5 flex-1 w-fit max-w-full mx-auto sm:mx-0 text-left">
                   {pkg.features.map(f => (
-                    <li key={f} className="flex items-start justify-center sm:justify-start gap-2 text-sm text-gray-600">
+                    <li key={f} className="flex items-start gap-2 text-sm text-gray-600">
                       <span className="text-primary font-bold mt-0.5">✓</span>
                       <span>{f}</span>
                     </li>
