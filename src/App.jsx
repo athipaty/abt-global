@@ -9,9 +9,9 @@ const DEMO_SITE_URL = '#'                            // TODO: replace with the l
 // JS bundle, so the printed quote leaves blank lines to fill in by hand instead.
 const SELLER = {
   brand: 'ABT Global',
-  name: 'TODO: ชื่อ-นามสกุล',   // TODO: replace with the seller's full name
-  phone: 'TODO: เบอร์โทรศัพท์', // TODO
-  email: 'TODO: อีเมล',         // TODO
+  name: 'อธิปัตย์ ชำนาญปา',
+  phone: '085-107-7620',
+  email: 'athipaty@gmail.com',
   validDays: 30,
 }
 
@@ -473,6 +473,7 @@ function QuoteDocument({ quote }) {
           </tr>
         </tbody>
       </table>
+      <p>ผู้เสนอราคาไม่ได้จดทะเบียนภาษีมูลค่าเพิ่ม</p>
       <p>ใบเสนอราคานี้มีผลถึงวันที่ {thaiDate(new Date(today.getTime() + SELLER.validDays * 864e5))}</p>
       <div className="mt-16 ml-auto w-64 text-center">
         <p>ลงชื่อ ..........................................</p>
