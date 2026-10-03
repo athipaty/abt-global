@@ -1,0 +1,55 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'Sarabun', sans-serif;
+  color: #1e293b;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+@layer components {
+  .btn-primary {
+    @apply bg-primary text-white px-5 py-3 rounded-full text-sm font-semibold hover:bg-secondary transition-colors shadow-sm;
+  }
+  .btn-line {
+    @apply bg-line text-white px-5 py-3 rounded-full text-sm font-semibold hover:brightness-95 transition-all shadow-sm inline-flex items-center gap-2;
+  }
+  .btn-ghost {
+    @apply border border-gray-300 text-gray-700 px-5 py-3 rounded-full text-sm font-semibold hover:border-primary hover:text-primary transition-colors;
+  }
+  .section {
+    @apply max-w-6xl mx-auto px-5 py-16 sm:py-20;
+  }
+  .badge {
+    @apply bg-white border border-gray-200 rounded-full px-4 py-2 text-xs font-bold text-gray-600 shadow-sm;
+  }
+}
+
+@keyframes fadeSlideUp {
+  from { opacity: 0; transform: translateY(18px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.reveal-section {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+.reveal-section.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+@media (prefers-reduced-motion: reduce) {
+  .reveal-section { opacity: 1; transform: none; transition: none; }
+}
