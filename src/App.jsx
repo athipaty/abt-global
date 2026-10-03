@@ -4,6 +4,17 @@ import { useEffect, useRef, useState } from 'react'
 const LINE_URL = 'https://lin.ee/your-line-oa-id'   // TODO: replace with your real LINE OA link
 const DEMO_SITE_URL = '#'                            // TODO: replace with the live Mae Sai อบต. site URL
 
+// Seller printed on the quotation (ใบเสนอราคา). Seller is an individual, not a company.
+// Address and national ID are deliberately NOT stored here: this file ships in the public
+// JS bundle, so the printed quote leaves blank lines to fill in by hand instead.
+const SELLER = {
+  brand: 'ABT Global',
+  name: 'อธิปัตย์ ชำนาญปา',
+  phone: '085-107-7620',
+  email: 'athipaty@gmail.com',
+  validDays: 30,
+}
+
 // TODO: confirm real pricing before launch — placeholders based on competitor research (8,900-9,000฿ flat)
 const PACKAGES = [
   {
@@ -49,6 +60,7 @@ const PACKAGES = [
 const NAV_LINKS = [
   { href: '#features', label: 'จุดเด่น' },
   { href: '#compare', label: 'เทียบก่อน-หลัง' },
+  { href: '#oit', label: 'เกณฑ์ OIT' },
   { href: '#pricing', label: 'ราคา' },
   { href: '#demo', label: 'ตัวอย่างจริง' },
   { href: '#contact', label: 'ติดต่อ' },
@@ -63,6 +75,62 @@ const FEATURES = [
   { icon: '✅', title: 'ครบมาตรฐาน ITA OIT LPA', desc: 'จัดหมวดหมู่ข้อมูลตามเกณฑ์ประเมินคุณธรรมและความโปร่งใสครบทุกข้อ' },
   { icon: '🖼️', title: 'อัปโหลดรูปภาพ/เอกสารง่าย', desc: 'ระบบอัปโหลดรูป PDF ประกาศ งบประมาณ ใช้งานง่ายเหมือนโพสต์เฟซบุ๊ก' },
   { icon: '💬', title: 'ซัพพอร์ตผ่าน LINE', desc: 'มีปัญหาแชทถามได้ทันที ไม่ต้องโทรหรือรอส่งอีเมล' },
+]
+
+// OIT indicator groups (ITA) — each row: [item, how it gets updated on our site]
+// Indicator wording/numbering changes yearly; re-check against the latest ITA manual from ป.ป.ช.
+const OIT_GROUPS = [
+  {
+    title: 'ข้อมูลพื้นฐาน',
+    items: [
+      ['โครงสร้างหน่วยงาน และข้อมูลผู้บริหาร', 'มีหน้าพร้อม'],
+      ['อำนาจหน้าที่ และกฎหมายที่เกี่ยวข้อง', 'มีหน้าพร้อม'],
+      ['ข้อมูลการติดต่อ และช่องทางถาม-ตอบ (Q&A)', 'มีหน้าพร้อม'],
+      ['ข่าวประชาสัมพันธ์ และ Social Network', 'อัปเดตเอง'],
+    ],
+  },
+  {
+    title: 'การบริหารงานและงบประมาณ',
+    items: [
+      ['แผนดำเนินงาน และรายงานผลการดำเนินงาน', 'อัปโหลดเอง'],
+      ['คู่มือ/มาตรฐานการให้บริการ และสถิติการให้บริการ', 'อัปโหลดเอง'],
+      ['บริการ E-Service', 'แพ็กเกจ Premium'],
+      ['แผนการใช้จ่ายงบประมาณ และรายงานผลการใช้จ่าย', 'อัปโหลดเอง'],
+    ],
+  },
+  {
+    title: 'การจัดซื้อจัดจ้าง',
+    items: [
+      ['แผนการจัดซื้อจัดจ้าง', 'อัปโหลดเอง'],
+      ['ประกาศจัดซื้อจัดจ้าง', 'ดึงจาก e-GP อัตโนมัติ'],
+      ['สรุปผลการจัดซื้อจัดจ้างรายเดือน', 'ดึงจาก e-GP อัตโนมัติ'],
+      ['รายงานผลการจัดซื้อจัดจ้างประจำปี', 'อัปโหลดเอง'],
+    ],
+  },
+  {
+    title: 'การบริหารทรัพยากรบุคคล',
+    items: [
+      ['นโยบายและหลักเกณฑ์การบริหารทรัพยากรบุคคล', 'อัปโหลดเอง'],
+      ['รายงานผลการบริหารทรัพยากรบุคคล', 'อัปโหลดเอง'],
+    ],
+  },
+  {
+    title: 'เรื่องร้องเรียนและการมีส่วนร่วม',
+    items: [
+      ['แนวปฏิบัติและช่องทางแจ้งเรื่องร้องเรียนการทุจริต', 'มีระบบให้'],
+      ['ข้อมูลสถิติเรื่องร้องเรียน', 'อัปโหลดเอง'],
+      ['การเปิดโอกาสให้ประชาชนมีส่วนร่วม', 'มีหน้าพร้อม'],
+    ],
+  },
+  {
+    title: 'การป้องกันการทุจริต',
+    items: [
+      ['เจตจำนงสุจริตของผู้บริหาร', 'อัปโหลดเอง'],
+      ['การประเมินความเสี่ยงการทุจริต และมาตรการป้องกัน', 'อัปโหลดเอง'],
+      ['แผนปฏิบัติการป้องกันการทุจริต และรายงานผล', 'อัปโหลดเอง'],
+      ['มาตรการส่งเสริมคุณธรรมและความโปร่งใสภายใน', 'อัปโหลดเอง'],
+    ],
+  },
 ]
 
 const INCLUDED = [
@@ -289,7 +357,164 @@ function Included() {
   )
 }
 
-function Pricing() {
+function OitTable() {
+  const badge = how =>
+    how.includes('e-GP') ? 'bg-green-50 text-green-700'
+      : how.startsWith('มี') || how.includes('Premium') ? 'bg-blue-50 text-primary'
+      : 'bg-gray-100 text-gray-600'
+  return (
+    <section id="oit" className="section">
+      <Reveal>
+        <h2 className="text-2xl sm:text-3xl font-extrabold text-center text-gray-900">ตรวจได้ทุกข้อ ตามเกณฑ์ OIT</h2>
+        <p className="text-center text-gray-500 mt-2 mb-10 max-w-2xl mx-auto">
+          ทุกหัวข้อในแบบตรวจการเปิดเผยข้อมูลสาธารณะ (OIT) มีหน้ารองรับบนเว็บไซต์ พร้อมบอกว่าอัปเดตอย่างไร
+        </p>
+      </Reveal>
+      <div className="grid md:grid-cols-2 gap-5">
+        {OIT_GROUPS.map(g => (
+          <Reveal key={g.title}>
+            <div className="h-full bg-white border border-gray-100 rounded-2xl p-6 shadow-sm">
+              <h3 className="font-bold text-gray-900 mb-3 text-center sm:text-left">{g.title}</h3>
+              <ul className="divide-y divide-gray-100">
+                {g.items.map(([item, how]) => (
+                  <li key={item} className="flex items-start justify-between gap-3 py-2.5 text-sm">
+                    <span className="flex items-start gap-2 text-gray-700">
+                      <span className="text-primary font-bold mt-0.5">✓</span>
+                      <span>{item}</span>
+                    </span>
+                    <span className={`shrink-0 text-[11px] font-semibold px-2 py-0.5 rounded-full ${badge(how)}`}>{how}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </Reveal>
+        ))}
+      </div>
+      <p className="text-center text-xs text-gray-400 mt-6">
+        หัวข้ออ้างอิงตามคู่มือการประเมิน ITA ของสำนักงาน ป.ป.ช.
+      </p>
+    </section>
+  )
+}
+
+const THAI_DIGITS = ['', 'หนึ่ง', 'สอง', 'สาม', 'สี่', 'ห้า', 'หก', 'เจ็ด', 'แปด', 'เก้า']
+const THAI_PLACES = ['', 'สิบ', 'ร้อย', 'พัน', 'หมื่น', 'แสน']
+
+// Whole baht only (package prices have no satang); supports values below 1,000,000
+function bahtText(n) {
+  if (n === 0) return 'ศูนย์บาทถ้วน'
+  const digits = String(n).split('').reverse()
+  let out = ''
+  digits.forEach((d, i) => {
+    const v = Number(d)
+    if (v === 0) return
+    let word = THAI_DIGITS[v]
+    if (i === 0 && v === 1 && digits.length > 1) word = 'เอ็ด'
+    if (i === 1 && v === 1) word = ''
+    if (i === 1 && v === 2) word = 'ยี่'
+    out = word + THAI_PLACES[i] + out
+  })
+  return out + 'บาทถ้วน'
+}
+
+const thaiDate = d => d.toLocaleDateString('th-TH', { day: 'numeric', month: 'long', year: 'numeric' })
+
+function QuoteDocument({ quote }) {
+  if (!quote) return null
+  const pkg = PACKAGES.find(p => p.name === quote.pkg)
+  const amount = Number(pkg.price.replace(/,/g, ''))
+  const today = new Date()
+  const no = `QT-${today.toISOString().slice(0, 10).replace(/-/g, '')}`
+  return (
+    <div className="hidden print:block text-[13px] text-black p-8">
+      <div className="flex justify-between items-start border-b pb-4 mb-4">
+        <div>
+          <p className="text-xl font-bold">{SELLER.brand}</p>
+          <p>โดย {SELLER.name}</p>
+          <p>ที่อยู่ ......................................................................</p>
+          <p>เลขประจำตัวผู้เสียภาษี ..........................................</p>
+          <p>โทร {SELLER.phone} · {SELLER.email}</p>
+        </div>
+        <div className="text-right">
+          <p className="text-xl font-bold">ใบเสนอราคา</p>
+          <p>เลขที่ {no}</p>
+          <p>วันที่ {thaiDate(today)}</p>
+        </div>
+      </div>
+      <p className="mb-1"><b>เรียน</b> {quote.org.startsWith('เทศบาล') ? `นายกเทศมนตรี${quote.org.slice(6)}` : `นายก${quote.org}`}</p>
+      <p className="mb-4"><b>เรื่อง</b> เสนอราคาจัดทำเว็บไซต์หน่วยงาน</p>
+      <table className="w-full border-collapse mb-4">
+        <thead>
+          <tr className="bg-gray-100">
+            <th className="border p-2 w-10">ลำดับ</th>
+            <th className="border p-2 text-left">รายการ</th>
+            <th className="border p-2 w-16">จำนวน</th>
+            <th className="border p-2 w-28 text-right">จำนวนเงิน (บาท)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td className="border p-2 text-center align-top">1</td>
+            <td className="border p-2">
+              <p className="font-semibold">จัดทำเว็บไซต์หน่วยงาน แพ็กเกจ {pkg.name} (ระยะเวลา 1 ปี)</p>
+              <ul className="list-disc pl-5 mt-1">
+                {PACKAGES.slice(0, PACKAGES.indexOf(pkg) + 1)
+                  .flatMap(p => p.features)
+                  .filter(f => !f.startsWith('ทุกอย่างใน'))
+                  .map(f => <li key={f}>{f}</li>)}
+              </ul>
+            </td>
+            <td className="border p-2 text-center align-top">1 ระบบ</td>
+            <td className="border p-2 text-right align-top">{pkg.price}.00</td>
+          </tr>
+          <tr>
+            <td colSpan={3} className="border p-2 text-right font-bold">รวมเป็นเงินทั้งสิ้น ({bahtText(amount)})</td>
+            <td className="border p-2 text-right font-bold">{pkg.price}.00</td>
+          </tr>
+        </tbody>
+      </table>
+      <p>ผู้เสนอราคาไม่ได้จดทะเบียนภาษีมูลค่าเพิ่ม</p>
+      <p>ใบเสนอราคานี้มีผลถึงวันที่ {thaiDate(new Date(today.getTime() + SELLER.validDays * 864e5))}</p>
+      <div className="mt-16 ml-auto w-64 text-center">
+        <p>ลงชื่อ ..........................................</p>
+        <p className="mt-1">({SELLER.name})</p>
+        <p>ผู้เสนอราคา</p>
+      </div>
+    </div>
+  )
+}
+
+function QuoteForm({ onPrint }) {
+  const [pkg, setPkg] = useState(PACKAGES.find(p => p.highlight).name)
+  const [org, setOrg] = useState('')
+  const submit = e => {
+    e.preventDefault()
+    const name = org.trim()
+    // Formal letters spell out the abbreviation
+    const full = name.replace(/^อบต\.?\s*/, 'องค์การบริหารส่วนตำบล')
+    onPrint({ pkg, org: /^(องค์การ|เทศบาล)/.test(full) ? full : `องค์การบริหารส่วนตำบล${full}` })
+  }
+  return (
+    <Reveal>
+      <form onSubmit={submit}
+        className="mt-12 max-w-2xl mx-auto bg-white border border-gray-100 rounded-2xl p-6 shadow-sm text-center">
+        <p className="font-bold text-gray-900">📄 ดาวน์โหลดใบเสนอราคา</p>
+        <p className="text-sm text-gray-500 mt-1 mb-4">ใส่ชื่อหน่วยงาน เลือกแพ็กเกจ แล้วบันทึกเป็น PDF ใช้ประกอบการจัดซื้อได้ทันที</p>
+        <div className="flex flex-col sm:flex-row gap-3">
+          <input required value={org} onChange={e => setOrg(e.target.value)} placeholder="ชื่อหน่วยงาน เช่น อบต.แม่สาย"
+            className="flex-1 border border-gray-300 rounded-full px-4 py-3 text-sm focus:outline-none focus:border-primary" />
+          <select value={pkg} onChange={e => setPkg(e.target.value)}
+            className="border border-gray-300 rounded-full px-4 py-3 text-sm bg-white focus:outline-none focus:border-primary">
+            {PACKAGES.map(p => <option key={p.name} value={p.name}>{p.name} — ฿{p.price}</option>)}
+          </select>
+          <button type="submit" className="btn-primary">ดาวน์โหลด PDF</button>
+        </div>
+      </form>
+    </Reveal>
+  )
+}
+
+function Pricing({ onPrint }) {
   return (
     <section id="pricing" className="bg-gray-50">
       <div className="section text-center">
@@ -329,6 +554,7 @@ function Pricing() {
             </Reveal>
           ))}
         </div>
+        <QuoteForm onPrint={onPrint} />
       </div>
     </section>
   )
@@ -395,18 +621,33 @@ function FloatingLineButton() {
 }
 
 export default function App() {
+  const [quote, setQuote] = useState(null)
+
+  // Render the quotation first, then open the print dialog (user saves as PDF)
+  useEffect(() => {
+    if (!quote) return
+    const done = () => setQuote(null)
+    window.addEventListener('afterprint', done, { once: true })
+    window.print()
+    return () => window.removeEventListener('afterprint', done)
+  }, [quote])
+
   return (
-    <div>
-      <Navbar />
-      <Hero />
-      <Features />
-      <Compare />
-      <Included />
-      <Pricing />
-      <Demo />
-      <Contact />
-      <Footer />
-      <FloatingLineButton />
-    </div>
+    <>
+      <div className="print:hidden">
+        <Navbar />
+        <Hero />
+        <Features />
+        <Compare />
+        <OitTable />
+        <Included />
+        <Pricing onPrint={setQuote} />
+        <Demo />
+        <Contact />
+        <Footer />
+        <FloatingLineButton />
+      </div>
+      <QuoteDocument quote={quote} />
+    </>
   )
 }
