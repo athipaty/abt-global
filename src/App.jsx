@@ -4,14 +4,14 @@ import { useEffect, useRef, useState } from 'react'
 const LINE_URL = 'https://lin.ee/your-line-oa-id'   // TODO: replace with your real LINE OA link
 const DEMO_SITE_URL = '#'                            // TODO: replace with the live Mae Sai อบต. site URL
 
-// TODO: fill in real company details — these are printed on the quotation (ใบเสนอราคา)
-const COMPANY = {
-  name: 'ABT Global',
-  address: 'TODO: ที่อยู่บริษัท',
-  taxId: 'TODO: เลขประจำตัวผู้เสียภาษี',
-  phone: 'TODO: เบอร์โทรศัพท์',
-  email: 'TODO: อีเมล',
-  signer: 'TODO: ชื่อผู้เสนอราคา',
+// Seller printed on the quotation (ใบเสนอราคา). Seller is an individual, not a company.
+// Address and national ID are deliberately NOT stored here: this file ships in the public
+// JS bundle, so the printed quote leaves blank lines to fill in by hand instead.
+const SELLER = {
+  brand: 'ABT Global',
+  name: 'TODO: ชื่อ-นามสกุล',   // TODO: replace with the seller's full name
+  phone: 'TODO: เบอร์โทรศัพท์', // TODO
+  email: 'TODO: อีเมล',         // TODO
   validDays: 30,
 }
 
@@ -429,10 +429,11 @@ function QuoteDocument({ quote }) {
     <div className="hidden print:block text-[13px] text-black p-8">
       <div className="flex justify-between items-start border-b pb-4 mb-4">
         <div>
-          <p className="text-xl font-bold">{COMPANY.name}</p>
-          <p>{COMPANY.address}</p>
-          <p>เลขประจำตัวผู้เสียภาษี {COMPANY.taxId}</p>
-          <p>โทร {COMPANY.phone} · {COMPANY.email}</p>
+          <p className="text-xl font-bold">{SELLER.brand}</p>
+          <p>โดย {SELLER.name}</p>
+          <p>ที่อยู่ ......................................................................</p>
+          <p>เลขประจำตัวผู้เสียภาษี ..........................................</p>
+          <p>โทร {SELLER.phone} · {SELLER.email}</p>
         </div>
         <div className="text-right">
           <p className="text-xl font-bold">ใบเสนอราคา</p>
@@ -472,10 +473,10 @@ function QuoteDocument({ quote }) {
           </tr>
         </tbody>
       </table>
-      <p>ใบเสนอราคานี้มีผลถึงวันที่ {thaiDate(new Date(today.getTime() + COMPANY.validDays * 864e5))}</p>
+      <p>ใบเสนอราคานี้มีผลถึงวันที่ {thaiDate(new Date(today.getTime() + SELLER.validDays * 864e5))}</p>
       <div className="mt-16 ml-auto w-64 text-center">
         <p>ลงชื่อ ..........................................</p>
-        <p className="mt-1">({COMPANY.signer})</p>
+        <p className="mt-1">({SELLER.name})</p>
         <p>ผู้เสนอราคา</p>
       </div>
     </div>
