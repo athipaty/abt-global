@@ -174,7 +174,7 @@ function Features() {
       <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
         {FEATURES.map(f => (
           <Reveal key={f.title}>
-            <div className="h-full bg-white border border-gray-100 rounded-2xl p-6 shadow-sm hover:shadow-md hover:-translate-y-1 transition-all">
+            <div className="h-full bg-white border border-gray-100 rounded-2xl p-6 text-center sm:text-left shadow-sm hover:shadow-md hover:-translate-y-1 transition-all">
               <div className="text-3xl mb-3">{f.icon}</div>
               <h3 className="font-bold text-gray-900 mb-1.5">{f.title}</h3>
               <p className="text-sm text-gray-500 leading-relaxed">{f.desc}</p>
@@ -271,14 +271,14 @@ function Included() {
   return (
     <section className="section">
       <Reveal className="grid sm:grid-cols-2 gap-8 items-center">
-        <div>
+        <div className="text-center sm:text-left">
           <h2 className="text-2xl sm:text-3xl font-extrabold text-gray-900 mb-4">แพ็กเกจรวมอะไรบ้าง</h2>
           <p className="text-gray-500 mb-6">ครบจบในราคาเดียว ไม่มีค่าใช้จ่ายแอบแฝง</p>
           <a href="#pricing" className="btn-primary">ดูราคา</a>
         </div>
         <ul className="space-y-3">
           {INCLUDED.map(item => (
-            <li key={item} className="flex items-start gap-2.5 text-gray-700">
+            <li key={item} className="flex items-start justify-center sm:justify-start gap-2.5 text-gray-700 text-center sm:text-left">
               <span className="text-primary font-bold mt-0.5">✓</span>
               <span className="text-sm">{item}</span>
             </li>
@@ -297,7 +297,7 @@ function Pricing() {
           <h2 className="text-2xl sm:text-3xl font-extrabold text-gray-900">เลือกแพ็กเกจที่ใช่</h2>
           <p className="text-gray-500 mt-2 mb-10">ไม่มีค่าใช้จ่ายซ่อนเร้น เลือกได้ตามงบและความต้องการ</p>
         </Reveal>
-        <div className="grid sm:grid-cols-3 gap-6 items-stretch max-w-5xl mx-auto text-left">
+        <div className="grid sm:grid-cols-3 gap-6 items-stretch max-w-5xl mx-auto text-center sm:text-left">
           {PACKAGES.map(pkg => (
             <Reveal key={pkg.name} className="h-full">
               <div className={`h-full flex flex-col bg-white rounded-2xl border p-7 relative ${
@@ -315,7 +315,7 @@ function Pricing() {
                 </p>
                 <ul className="mt-5 space-y-2.5 flex-1">
                   {pkg.features.map(f => (
-                    <li key={f} className="flex items-start gap-2 text-sm text-gray-600">
+                    <li key={f} className="flex items-start justify-center sm:justify-start gap-2 text-sm text-gray-600">
                       <span className="text-primary font-bold mt-0.5">✓</span>
                       <span>{f}</span>
                     </li>
