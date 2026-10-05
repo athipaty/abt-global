@@ -109,26 +109,6 @@ const OIT_GROUPS = [
   },
 ]
 
-// Live chat is loaded by the tawk.to snippet in index.html
-const LIVE_CHAT = typeof window !== 'undefined' && !!window.Tawk_API
-
-function openChat() {
-  const api = window.Tawk_API
-  if (!api) return window.open(LINE_URL, '_blank', 'noreferrer')
-  if (typeof api.maximize === 'function') return api.maximize()
-  // Widget still loading: open it as soon as it's ready instead of sending the visitor to LINE
-  const prevOnLoad = api.onLoad
-  api.onLoad = () => { prevOnLoad?.(); api.maximize() }
-}
-
-function LineLink({ className = '' }) {
-  return (
-    <a href={LINE_URL} target="_blank" rel="noreferrer" className={`inline-flex items-center gap-1.5 text-sm font-semibold ${className}`}>
-      <LineIcon className="w-4 h-4" /> หรือทักผ่าน LINE
-    </a>
-  )
-}
-
 function LineIcon({ className = 'w-5 h-5' }) {
   return (
     <svg viewBox="0 0 24 24" className={className} fill="currentColor" aria-hidden="true">
@@ -172,7 +152,9 @@ function Navbar() {
             <a key={l.href} href={l.href} className="text-sm font-medium text-gray-600 hover:text-primary transition-colors">{l.label}</a>
           ))}
         </nav>
-        <button onClick={openChat} className="hidden md:inline-flex btn-primary !px-4 !py-2">💬 แชทกับเรา</button>
+        <a href={LINE_URL} target="_blank" rel="noreferrer" className="hidden md:inline-flex btn-line !px-4 !py-2">
+          <LineIcon className="w-4 h-4" /> แชทผ่าน LINE
+        </a>
         <button className="md:hidden text-gray-600" onClick={() => setOpen(o => !o)} aria-label="เมนู">
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M4 6h16M4 12h16M4 18h16" /></svg>
         </button>
@@ -182,8 +164,9 @@ function Navbar() {
           {NAV_LINKS.map(l => (
             <a key={l.href} href={l.href} onClick={() => setOpen(false)} className="text-sm font-medium text-gray-600">{l.label}</a>
           ))}
-          <button onClick={() => { setOpen(false); openChat() }} className="btn-primary">💬 แชทกับเรา</button>
-          <LineLink className="justify-center text-line" />
+          <a href={LINE_URL} target="_blank" rel="noreferrer" className="btn-line justify-center">
+            <LineIcon className="w-4 h-4" /> แชทผ่าน LINE
+          </a>
         </div>
       )}
     </header>
@@ -205,7 +188,9 @@ function Hero() {
           รองรับมาตรฐาน ITA OIT LPA e-GP ครบถ้วน ออกแบบใหม่ ใช้งานง่ายทั้งฝั่งประชาชนและเจ้าหน้าที่
         </p>
         <div className="mt-8 flex flex-wrap justify-center gap-3">
-          <button onClick={openChat} className="btn-primary">💬 แชทสอบถามเลย</button>
+          <a href={LINE_URL} target="_blank" rel="noreferrer" className="btn-line">
+            <LineIcon className="w-4 h-4" /> แชทสอบถามผ่าน LINE
+          </a>
           <a href="#compare" className="btn-ghost">👀 ดูหน้าตาเว็บไซต์</a>
         </div>
       </div>
@@ -542,8 +527,9 @@ function Pricing({ onPrint }) {
                 ฿{PLAN.price}<span className="text-base font-medium text-gray-400"> / ปี</span>
               </p>
               <p className="text-xs text-gray-400 mt-2">ผู้เสนอราคาไม่ได้จดทะเบียนภาษีมูลค่าเพิ่ม</p>
-              <button onClick={openChat} className="btn-primary w-full mt-6">💬 แชทสอบถามเลย</button>
-              <LineLink className="mt-3 text-line" />
+              <a href={LINE_URL} target="_blank" rel="noreferrer" className="btn-line w-full justify-center mt-6">
+                <LineIcon className="w-4 h-4" /> สอบถามผ่าน LINE
+              </a>
             </div>
             <ul className="space-y-2.5">
               {PLAN.features.map(f => (
@@ -584,13 +570,10 @@ function Contact() {
         <Reveal>
           <h2 className="text-2xl sm:text-3xl font-extrabold text-white">พร้อมเริ่มต้นแล้วหรือยัง?</h2>
           <p className="text-blue-100 mt-2 mb-8">ทักแชทมาคุยรายละเอียดกับเราได้เลย ตอบไว ไม่ต้องรอนาน</p>
-          <div className="flex flex-col items-center gap-4">
-            <button onClick={openChat}
-              className="inline-flex items-center gap-2 bg-white text-primary px-6 py-3.5 rounded-full text-sm font-bold shadow-lg hover:scale-105 transition-transform">
-              💬 แชทกับเราตอนนี้
-            </button>
-            <LineLink className="text-white" />
-          </div>
+          <a href={LINE_URL} target="_blank" rel="noreferrer"
+            className="inline-flex items-center gap-2 bg-white text-primary px-6 py-3.5 rounded-full text-sm font-bold shadow-lg hover:scale-105 transition-transform">
+            <LineIcon className="w-5 h-5 text-line" /> แชทผ่าน LINE ตอนนี้
+          </a>
         </Reveal>
       </div>
     </section>
@@ -648,7 +631,7 @@ export default function App() {
         {DEMO_SITE_URL && <Demo />}
         <Contact />
         <Footer />
-        {!LIVE_CHAT && <FloatingLineButton />}
+        <FloatingLineButton />
       </div>
       <QuoteDocument quote={quote} />
     </>
