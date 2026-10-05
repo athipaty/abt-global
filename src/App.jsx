@@ -1,7 +1,10 @@
 import { useEffect, useRef, useState } from 'react'
 
 // ── Placeholders — swap these in once you have them ───────────────────────
-const LINE_URL = 'https://lin.ee/your-line-oa-id'   // TODO: replace with your real LINE OA link
+const LINE_URL = 'https://line.me/ti/p/nMKPHfKc_9'   // personal LINE (QR "Copy link"); regenerating the QR in LINE breaks this link
+// Live chat (tawk.to, free). Paste "propertyId/widgetId" from tawk.to → Administration → Chat Widget.
+// While empty, chat buttons fall back to opening LINE.
+const TAWK_ID = '6ac3b058160ba734cb042986/1k466hnfo'
 const DEMO_SITE_URL = '#'                            // TODO: replace with the live Mae Sai อบต. site URL
 
 // Seller printed on the quotation (ใบเสนอราคา). Seller is an individual, not a company.
@@ -108,6 +111,35 @@ const OIT_GROUPS = [
   },
 ]
 
+function openChat() {
+  if (window.Tawk_API?.maximize) window.Tawk_API.maximize()
+  else window.open(LINE_URL, '_blank', 'noreferrer')
+}
+
+// Loads the tawk.to widget once; it renders its own floating bubble
+function useLiveChat() {
+  useEffect(() => {
+    if (!TAWK_ID || document.getElementById('tawk-script')) return
+    window.Tawk_API = window.Tawk_API || {}
+    window.Tawk_LoadStart = new Date()
+    const s = document.createElement('script')
+    s.id = 'tawk-script'
+    s.async = true
+    s.src = `https://embed.tawk.to/${TAWK_ID}`
+    s.charset = 'UTF-8'
+    s.setAttribute('crossorigin', '*')
+    document.body.appendChild(s)
+  }, [])
+}
+
+function LineLink({ className = '' }) {
+  return (
+    <a href={LINE_URL} target="_blank" rel="noreferrer" className={`inline-flex items-center gap-1.5 text-sm font-semibold ${className}`}>
+      <LineIcon className="w-4 h-4" /> หรือทักผ่าน LINE
+    </a>
+  )
+}
+
 function LineIcon({ className = 'w-5 h-5' }) {
   return (
     <svg viewBox="0 0 24 24" className={className} fill="currentColor" aria-hidden="true">
@@ -151,9 +183,7 @@ function Navbar() {
             <a key={l.href} href={l.href} className="text-sm font-medium text-gray-600 hover:text-primary transition-colors">{l.label}</a>
           ))}
         </nav>
-        <a href={LINE_URL} target="_blank" rel="noreferrer" className="hidden md:inline-flex btn-line !px-4 !py-2">
-          <LineIcon className="w-4 h-4" /> แชทผ่าน LINE
-        </a>
+        <button onClick={openChat} className="hidden md:inline-flex btn-primary !px-4 !py-2">💬 แชทกับเรา</button>
         <button className="md:hidden text-gray-600" onClick={() => setOpen(o => !o)} aria-label="เมนู">
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M4 6h16M4 12h16M4 18h16" /></svg>
         </button>
@@ -163,9 +193,8 @@ function Navbar() {
           {NAV_LINKS.map(l => (
             <a key={l.href} href={l.href} onClick={() => setOpen(false)} className="text-sm font-medium text-gray-600">{l.label}</a>
           ))}
-          <a href={LINE_URL} target="_blank" rel="noreferrer" className="btn-line justify-center">
-            <LineIcon className="w-4 h-4" /> แชทผ่าน LINE
-          </a>
+          <button onClick={() => { setOpen(false); openChat() }} className="btn-primary">💬 แชทกับเรา</button>
+          <LineLink className="justify-center text-line" />
         </div>
       )}
     </header>
@@ -188,10 +217,8 @@ function Hero() {
           — ดูตัวอย่างเว็บไซต์จริงที่ใช้งานอยู่ด้านล่าง
         </p>
         <div className="mt-8 flex flex-wrap justify-center gap-3">
-          <a href="#demo" className="btn-primary">👀 ดูตัวอย่างเว็บไซต์จริง</a>
-          <a href={LINE_URL} target="_blank" rel="noreferrer" className="btn-line">
-            <LineIcon className="w-4 h-4" /> แชทสอบถามผ่าน LINE
-          </a>
+          <button onClick={openChat} className="btn-primary">💬 แชทสอบถามเลย</button>
+          <a href="#demo" className="btn-ghost">👀 ดูตัวอย่างเว็บไซต์จริง</a>
         </div>
       </div>
     </section>
@@ -527,9 +554,8 @@ function Pricing({ onPrint }) {
                 ฿{PLAN.price}<span className="text-base font-medium text-gray-400"> / ปี</span>
               </p>
               <p className="text-xs text-gray-400 mt-2">ผู้เสนอราคาไม่ได้จดทะเบียนภาษีมูลค่าเพิ่ม</p>
-              <a href={LINE_URL} target="_blank" rel="noreferrer" className="btn-line w-full justify-center mt-6">
-                <LineIcon className="w-4 h-4" /> สอบถามผ่าน LINE
-              </a>
+              <button onClick={openChat} className="btn-primary w-full mt-6">💬 แชทสอบถามเลย</button>
+              <LineLink className="mt-3 text-line" />
             </div>
             <ul className="space-y-2.5">
               {PLAN.features.map(f => (
@@ -570,10 +596,13 @@ function Contact() {
         <Reveal>
           <h2 className="text-2xl sm:text-3xl font-extrabold text-white">พร้อมเริ่มต้นแล้วหรือยัง?</h2>
           <p className="text-blue-100 mt-2 mb-8">ทักแชทมาคุยรายละเอียดกับเราได้เลย ตอบไว ไม่ต้องรอนาน</p>
-          <a href={LINE_URL} target="_blank" rel="noreferrer"
-            className="inline-flex items-center gap-2 bg-white text-primary px-6 py-3.5 rounded-full text-sm font-bold shadow-lg hover:scale-105 transition-transform">
-            <LineIcon className="w-5 h-5 text-line" /> แชทผ่าน LINE ตอนนี้
-          </a>
+          <div className="flex flex-col items-center gap-4">
+            <button onClick={openChat}
+              className="inline-flex items-center gap-2 bg-white text-primary px-6 py-3.5 rounded-full text-sm font-bold shadow-lg hover:scale-105 transition-transform">
+              💬 แชทกับเราตอนนี้
+            </button>
+            <LineLink className="text-white" />
+          </div>
         </Reveal>
       </div>
     </section>
@@ -609,6 +638,7 @@ function FloatingLineButton() {
 
 export default function App() {
   const [quote, setQuote] = useState(null)
+  useLiveChat()
 
   // Render the quotation first, then open the print dialog (user saves as PDF)
   useEffect(() => {
@@ -631,7 +661,7 @@ export default function App() {
         <Demo />
         <Contact />
         <Footer />
-        <FloatingLineButton />
+        {!TAWK_ID && <FloatingLineButton />}
       </div>
       <QuoteDocument quote={quote} />
     </>
