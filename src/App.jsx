@@ -5,7 +5,8 @@ const LINE_URL = 'https://line.me/ti/p/nMKPHfKc_9'   // personal LINE (QR "Copy 
 // Live chat (tawk.to, free). Paste "propertyId/widgetId" from tawk.to → Administration → Chat Widget.
 // While empty, chat buttons fall back to opening LINE.
 const TAWK_ID = '6ac3b058160ba734cb042986/1k466hnfo'
-const DEMO_SITE_URL = '#'                            // TODO: replace with a live client site URL
+// Live client site. Leave empty until the first client site is live: the "ตัวอย่างจริง" section and nav link stay hidden.
+const DEMO_SITE_URL = ''
 
 // Seller printed on the quotation (ใบเสนอราคา). Seller is an individual, not a company.
 // Address and national ID are deliberately NOT stored here: this file ships in the public
@@ -40,7 +41,7 @@ const NAV_LINKS = [
   { href: '#compare', label: 'เทียบก่อน-หลัง' },
   { href: '#oit', label: 'เกณฑ์ OIT' },
   { href: '#pricing', label: 'ราคา' },
-  { href: '#demo', label: 'ตัวอย่างจริง' },
+  ...(DEMO_SITE_URL ? [{ href: '#demo', label: 'ตัวอย่างจริง' }] : []),
   { href: '#contact', label: 'ติดต่อ' },
 ]
 
@@ -214,11 +215,10 @@ function Hero() {
         </h1>
         <p className="mt-5 text-gray-500 text-base sm:text-lg max-w-xl mx-auto">
           รองรับมาตรฐาน ITA OIT LPA e-GP ครบถ้วน ออกแบบใหม่ ใช้งานง่ายทั้งฝั่งประชาชนและเจ้าหน้าที่
-          — ดูตัวอย่างเว็บไซต์จริงที่ใช้งานอยู่ด้านล่าง
         </p>
         <div className="mt-8 flex flex-wrap justify-center gap-3">
           <button onClick={openChat} className="btn-primary">💬 แชทสอบถามเลย</button>
-          <a href="#demo" className="btn-ghost">👀 ดูตัวอย่างเว็บไซต์จริง</a>
+          <a href="#compare" className="btn-ghost">👀 ดูหน้าตาเว็บไซต์</a>
         </div>
       </div>
     </section>
@@ -658,7 +658,7 @@ export default function App() {
         <Compare />
         <OitTable />
         <Pricing onPrint={setQuote} />
-        <Demo />
+        {DEMO_SITE_URL && <Demo />}
         <Contact />
         <Footer />
         {!TAWK_ID && <FloatingLineButton />}
