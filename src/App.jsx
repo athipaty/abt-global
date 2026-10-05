@@ -15,47 +15,22 @@ const SELLER = {
   validDays: 30,
 }
 
-// TODO: confirm real pricing before launch — placeholders based on competitor research (8,900-9,000฿ flat)
-const PACKAGES = [
-  {
-    name: 'Basic',
-    price: '6,900',
-    tagline: 'ครบตามเกณฑ์ ผ่านมาตรฐาน',
-    features: [
-      'เว็บไซต์ครบตามเกณฑ์ ITA / OIT / LPA',
-      'ดีไซน์เทมเพลตมาตรฐาน',
-      'ระบบจัดการเนื้อหาเบื้องต้น (ข่าว/ประกาศ)',
-      'โดเมน .go.th และโฮสติ้ง 1 ปี',
-    ],
-    highlight: false,
-  },
-  {
-    name: 'Standard',
-    price: '9,900',
-    tagline: 'ตัวเลือกยอดนิยม',
-    features: [
-      'ทุกอย่างใน Basic',
-      'เชื่อมต่อระบบ e-GP อัตโนมัติแบบเรียลไทม์',
-      'อัปโหลดรูป/PDF ง่าย ไม่ต้องพึ่งนักพัฒนา',
-      'หมวดท่องเที่ยว / สินค้า OTOP',
-      'ซัพพอร์ตผ่าน LINE',
-    ],
-    highlight: true,
-  },
-  {
-    name: 'Premium',
-    price: '15,900',
-    tagline: 'ออกแบบเฉพาะหน่วยงาน',
-    features: [
-      'ทุกอย่างใน Standard',
-      'ออกแบบธีม/สีเฉพาะหน่วยงาน',
-      'ระบบ e-Service แบบฟอร์มออนไลน์',
-      'รองรับหลายภาษา (ไทย/อังกฤษ)',
-      'ซัพพอร์ตด่วนพิเศษผ่าน LINE',
-    ],
-    highlight: false,
-  },
-]
+// Single price — no package tiers, simpler for buyers
+const PLAN = {
+  price: '9,900',
+  features: [
+    'เว็บไซต์ครบตามเกณฑ์ ITA / OIT / LPA',
+    'ดีไซน์ทันสมัย ใช้งานได้ทุกอุปกรณ์',
+    'โดเมน .go.th และโฮสติ้ง 1 ปี',
+    'ระบบหลังบ้านจัดการเนื้อหาเอง (ข่าว ประกาศ บุคลากร)',
+    'เชื่อมต่อระบบ e-GP อัตโนมัติแบบเรียลไทม์',
+    'อัปโหลดรูป/PDF ง่าย ไม่ต้องพึ่งนักพัฒนา',
+    'ระบบ e-Service แบบฟอร์มออนไลน์',
+    'หมวดท่องเที่ยว / สินค้า OTOP',
+    'อบรมการใช้งานให้เจ้าหน้าที่',
+    'ซัพพอร์ตดูแลระบบตลอดปีผ่าน LINE',
+  ],
+}
 
 const NAV_LINKS = [
   { href: '#features', label: 'จุดเด่น' },
@@ -94,7 +69,7 @@ const OIT_GROUPS = [
     items: [
       ['แผนดำเนินงาน และรายงานผลการดำเนินงาน', 'อัปโหลดเอง'],
       ['คู่มือ/มาตรฐานการให้บริการ และสถิติการให้บริการ', 'อัปโหลดเอง'],
-      ['บริการ E-Service', 'แพ็กเกจ Premium'],
+      ['บริการ E-Service', 'มีระบบให้'],
       ['แผนการใช้จ่ายงบประมาณ และรายงานผลการใช้จ่าย', 'อัปโหลดเอง'],
     ],
   },
@@ -131,15 +106,6 @@ const OIT_GROUPS = [
       ['มาตรการส่งเสริมคุณธรรมและความโปร่งใสภายใน', 'อัปโหลดเอง'],
     ],
   },
-]
-
-const INCLUDED = [
-  'เว็บไซต์พร้อมโดเมน .go.th และพื้นที่โฮสติ้ง',
-  'ระบบหลังบ้านจัดการเนื้อหาเอง (ข่าว ประกาศ บุคลากร)',
-  'หน้าเว็บครบตามเกณฑ์ ITA / OIT / LPA',
-  'เชื่อมต่อระบบ e-GP อัตโนมัติ',
-  'อบรมการใช้งานให้เจ้าหน้าที่',
-  'ซัพพอร์ตดูแลระบบตลอดปีผ่าน LINE',
 ]
 
 function LineIcon({ className = 'w-5 h-5' }) {
@@ -397,32 +363,10 @@ function Compare() {
   )
 }
 
-function Included() {
-  return (
-    <section className="section">
-      <Reveal className="grid sm:grid-cols-2 gap-8 items-center">
-        <div className="text-center sm:text-left">
-          <h2 className="text-2xl sm:text-3xl font-extrabold text-gray-900 mb-4">แพ็กเกจรวมอะไรบ้าง</h2>
-          <p className="text-gray-500 mb-6">ครบจบในราคาเดียว ไม่มีค่าใช้จ่ายแอบแฝง</p>
-          <a href="#pricing" className="btn-primary">ดูราคา</a>
-        </div>
-        <ul className="space-y-3">
-          {INCLUDED.map(item => (
-            <li key={item} className="flex items-start justify-center sm:justify-start gap-2.5 text-gray-700 text-center sm:text-left">
-              <span className="text-primary font-bold mt-0.5">✓</span>
-              <span className="text-sm">{item}</span>
-            </li>
-          ))}
-        </ul>
-      </Reveal>
-    </section>
-  )
-}
-
 function OitTable() {
   const badge = how =>
     how.includes('e-GP') ? 'bg-green-50 text-green-700'
-      : how.startsWith('มี') || how.includes('Premium') ? 'bg-blue-50 text-primary'
+      : how.startsWith('มี') ? 'bg-blue-50 text-primary'
       : 'bg-gray-100 text-gray-600'
   return (
     <section id="oit" className="section">
@@ -483,8 +427,7 @@ const thaiDate = d => d.toLocaleDateString('th-TH', { day: 'numeric', month: 'lo
 
 function QuoteDocument({ quote }) {
   if (!quote) return null
-  const pkg = PACKAGES.find(p => p.name === quote.pkg)
-  const amount = Number(pkg.price.replace(/,/g, ''))
+  const amount = Number(PLAN.price.replace(/,/g, ''))
   const today = new Date()
   const no = `QT-${today.toISOString().slice(0, 10).replace(/-/g, '')}`
   return (
@@ -518,20 +461,17 @@ function QuoteDocument({ quote }) {
           <tr>
             <td className="border p-2 text-center align-top">1</td>
             <td className="border p-2">
-              <p className="font-semibold">จัดทำเว็บไซต์หน่วยงาน แพ็กเกจ {pkg.name} (ระยะเวลา 1 ปี)</p>
+              <p className="font-semibold">จัดทำเว็บไซต์หน่วยงาน (ระยะเวลา 1 ปี)</p>
               <ul className="list-disc pl-5 mt-1">
-                {PACKAGES.slice(0, PACKAGES.indexOf(pkg) + 1)
-                  .flatMap(p => p.features)
-                  .filter(f => !f.startsWith('ทุกอย่างใน'))
-                  .map(f => <li key={f}>{f}</li>)}
+                {PLAN.features.map(f => <li key={f}>{f}</li>)}
               </ul>
             </td>
             <td className="border p-2 text-center align-top">1 ระบบ</td>
-            <td className="border p-2 text-right align-top">{pkg.price}.00</td>
+            <td className="border p-2 text-right align-top">{PLAN.price}.00</td>
           </tr>
           <tr>
             <td colSpan={3} className="border p-2 text-right font-bold">รวมเป็นเงินทั้งสิ้น ({bahtText(amount)})</td>
-            <td className="border p-2 text-right font-bold">{pkg.price}.00</td>
+            <td className="border p-2 text-right font-bold">{PLAN.price}.00</td>
           </tr>
         </tbody>
       </table>
@@ -547,28 +487,23 @@ function QuoteDocument({ quote }) {
 }
 
 function QuoteForm({ onPrint }) {
-  const [pkg, setPkg] = useState(PACKAGES.find(p => p.highlight).name)
   const [org, setOrg] = useState('')
   const submit = e => {
     e.preventDefault()
     const name = org.trim()
     // Formal letters spell out the abbreviation
     const full = name.replace(/^อบต\.?\s*/, 'องค์การบริหารส่วนตำบล')
-    onPrint({ pkg, org: /^(องค์การ|เทศบาล)/.test(full) ? full : `องค์การบริหารส่วนตำบล${full}` })
+    onPrint({ org: /^(องค์การ|เทศบาล)/.test(full) ? full : `องค์การบริหารส่วนตำบล${full}` })
   }
   return (
     <Reveal>
       <form onSubmit={submit}
         className="mt-12 max-w-2xl mx-auto bg-white border border-gray-100 rounded-2xl p-6 shadow-sm text-center">
         <p className="font-bold text-gray-900">📄 ดาวน์โหลดใบเสนอราคา</p>
-        <p className="text-sm text-gray-500 mt-1 mb-4">ใส่ชื่อหน่วยงาน เลือกแพ็กเกจ แล้วบันทึกเป็น PDF ใช้ประกอบการจัดซื้อได้ทันที</p>
+        <p className="text-sm text-gray-500 mt-1 mb-4">ใส่ชื่อหน่วยงาน แล้วบันทึกเป็น PDF ใช้ประกอบการจัดซื้อได้ทันที</p>
         <div className="flex flex-col sm:flex-row gap-3">
           <input required value={org} onChange={e => setOrg(e.target.value)} placeholder="ชื่อหน่วยงาน เช่น อบต.แม่สาย"
             className="flex-1 border border-gray-300 rounded-full px-4 py-3 text-sm focus:outline-none focus:border-primary" />
-          <select value={pkg} onChange={e => setPkg(e.target.value)}
-            className="border border-gray-300 rounded-full px-4 py-3 text-sm bg-white focus:outline-none focus:border-primary">
-            {PACKAGES.map(p => <option key={p.name} value={p.name}>{p.name} — ฿{p.price}</option>)}
-          </select>
           <button type="submit" className="btn-primary">ดาวน์โหลด PDF</button>
         </div>
       </form>
@@ -581,41 +516,31 @@ function Pricing({ onPrint }) {
     <section id="pricing" className="bg-gray-50">
       <div className="section text-center">
         <Reveal>
-          <h2 className="text-2xl sm:text-3xl font-extrabold text-gray-900">เลือกแพ็กเกจที่ใช่</h2>
-          <p className="text-gray-500 mt-2 mb-10">ไม่มีค่าใช้จ่ายซ่อนเร้น เลือกได้ตามงบและความต้องการ</p>
+          <h2 className="text-2xl sm:text-3xl font-extrabold text-gray-900">ราคาเดียว ครบทุกอย่าง</h2>
+          <p className="text-gray-500 mt-2 mb-10">ไม่ต้องเลือกแพ็กเกจ ไม่มีค่าใช้จ่ายแอบแฝง</p>
         </Reveal>
-        <div className="grid sm:grid-cols-3 gap-6 items-stretch max-w-5xl mx-auto text-center sm:text-left">
-          {PACKAGES.map(pkg => (
-            <Reveal key={pkg.name} className="h-full">
-              <div className={`h-full flex flex-col bg-white rounded-2xl border p-7 relative ${
-                pkg.highlight ? 'border-primary shadow-xl sm:scale-105' : 'border-gray-100 shadow-sm'
-              }`}>
-                {pkg.highlight && (
-                  <span className="absolute -top-3 left-1/2 -translate-x-1/2 bg-primary text-white text-[11px] font-bold px-3 py-1 rounded-full">
-                    ⭐ {pkg.tagline}
-                  </span>
-                )}
-                <p className="text-sm font-bold text-primary mb-1">{pkg.name}</p>
-                {!pkg.highlight && <p className="text-xs text-gray-400 mb-1">{pkg.tagline}</p>}
-                <p className={`text-3xl font-extrabold text-gray-900 ${pkg.highlight ? 'mt-3' : 'mt-2'}`}>
-                  ฿{pkg.price}<span className="text-sm font-medium text-gray-400"> / ปี</span>
-                </p>
-                <ul className="mt-5 space-y-2.5 flex-1">
-                  {pkg.features.map(f => (
-                    <li key={f} className="flex items-start justify-center sm:justify-start gap-2 text-sm text-gray-600">
-                      <span className="text-primary font-bold mt-0.5">✓</span>
-                      <span>{f}</span>
-                    </li>
-                  ))}
-                </ul>
-                <a href={LINE_URL} target="_blank" rel="noreferrer"
-                  className={`w-full inline-flex items-center justify-center gap-2 mt-6 ${pkg.highlight ? 'btn-line' : 'btn-ghost'}`}>
-                  {pkg.highlight && <LineIcon className="w-4 h-4" />} สอบถามผ่าน LINE
-                </a>
-              </div>
-            </Reveal>
-          ))}
-        </div>
+        <Reveal>
+          <div className="max-w-3xl mx-auto bg-white rounded-2xl border border-primary shadow-xl p-7 sm:p-10 grid sm:grid-cols-[2fr_3fr] gap-8 items-center">
+            <div className="text-center sm:text-left">
+              <p className="text-sm font-bold text-primary">เว็บไซต์ อบต. / เทศบาล</p>
+              <p className="text-5xl font-extrabold text-gray-900 mt-2">
+                ฿{PLAN.price}<span className="text-base font-medium text-gray-400"> / ปี</span>
+              </p>
+              <p className="text-xs text-gray-400 mt-2">ผู้เสนอราคาไม่ได้จดทะเบียนภาษีมูลค่าเพิ่ม</p>
+              <a href={LINE_URL} target="_blank" rel="noreferrer" className="btn-line w-full justify-center mt-6">
+                <LineIcon className="w-4 h-4" /> สอบถามผ่าน LINE
+              </a>
+            </div>
+            <ul className="space-y-2.5">
+              {PLAN.features.map(f => (
+                <li key={f} className="flex items-start justify-center sm:justify-start gap-2 text-sm text-gray-700">
+                  <span className="text-primary font-bold mt-0.5">✓</span>
+                  <span>{f}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </Reveal>
         <QuoteForm onPrint={onPrint} />
       </div>
     </section>
@@ -702,7 +627,6 @@ export default function App() {
         <Features />
         <Compare />
         <OitTable />
-        <Included />
         <Pricing onPrint={setQuote} />
         <Demo />
         <Contact />
