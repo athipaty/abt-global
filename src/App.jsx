@@ -255,62 +255,110 @@ function Features() {
 }
 
 // Pure-CSS mockups — no real screenshots needed, just illustrate old vs. new visually
-function OldMockup() {
+function BrowserBar({ url, modern }) {
   return (
-    <div className="rounded-xl border border-gray-300 bg-gray-50 overflow-hidden">
-      <div className="h-7 bg-gray-200 flex items-center gap-1.5 px-2">
-        <span className="w-2.5 h-2.5 rounded-full bg-gray-400" />
-        <span className="w-2.5 h-2.5 rounded-full bg-gray-400" />
-        <span className="w-2.5 h-2.5 rounded-full bg-gray-400" />
-        <span className="ml-2 text-[10px] text-gray-500 font-mono">home.php?view=12</span>
-      </div>
-      <div className="p-3">
-        <div className="h-10 bg-blue-900 mb-2 flex items-center px-2">
-          <div className="w-8 h-8 bg-gray-300 rounded-full" />
-          <div className="ml-2 w-32 h-2.5 bg-gray-300" />
-        </div>
-        <div className="grid grid-cols-4 gap-1">
-          <div className="col-span-1 space-y-1">
-            {Array.from({ length: 8 }).map((_, i) => <div key={i} className="h-2 bg-gray-300" />)}
+    <div className={`h-7 flex items-center gap-1.5 px-2 ${modern ? 'bg-white border-b border-gray-100' : 'bg-gray-200'}`}>
+      <span className={`w-2.5 h-2.5 rounded-full ${modern ? 'bg-red-400' : 'bg-gray-400'}`} />
+      <span className={`w-2.5 h-2.5 rounded-full ${modern ? 'bg-yellow-400' : 'bg-gray-400'}`} />
+      <span className={`w-2.5 h-2.5 rounded-full ${modern ? 'bg-green-400' : 'bg-gray-400'}`} />
+      <span className={`ml-2 text-[10px] font-mono truncate ${modern ? 'text-gray-400' : 'text-gray-500'}`}>{url}</span>
+    </div>
+  )
+}
+
+function OldMockup() {
+  const menu = ['หน้าแรก', 'ประวัติความเป็นมา', 'วิสัยทัศน์/พันธกิจ', 'โครงสร้างองค์กร', 'คณะผู้บริหาร', 'สภา อบต.', 'กองคลัง', 'กองช่าง', 'ข้อบัญญัติ', 'แผนพัฒนา', 'ดาวน์โหลดเอกสาร', 'กระดานสนทนา', 'ลิงก์หน่วยงาน']
+  const news = ['ประกาศสอบราคาจ้างก่อสร้างถนน คสล. หมู่ที่ 3', 'ประกาศรับสมัครบุคคลเพื่อสรรหาเป็นพนักงานจ้าง', 'กำหนดการประชุมสภาสมัยสามัญ สมัยที่ 3', 'ประกาศผู้ชนะการเสนอราคา โครงการซ่อมแซมฝาย', 'แจ้งกำหนดการชำระภาษีป้าย ประจำปี']
+  return (
+    <div className="rounded-xl border border-gray-300 bg-gray-50 overflow-hidden" style={{ fontFamily: 'Tahoma, "Times New Roman", serif' }}>
+      <BrowserBar url="www.tambon-example.go.th/home.php?view=12" />
+      <div className="bg-white">
+        <div className="h-12 bg-gradient-to-r from-blue-900 via-blue-700 to-blue-900 flex items-center px-2 gap-2 border-b-4 border-yellow-500">
+          <div className="w-8 h-8 rounded-full bg-yellow-400 border-2 border-white shrink-0" />
+          <div className="leading-tight">
+            <p className="text-[10px] font-bold text-yellow-300">องค์การบริหารส่วนตำบลตัวอย่าง</p>
+            <p className="text-[7px] text-white">Example Subdistrict Administrative Organization</p>
           </div>
-          <div className="col-span-3 border border-gray-300 p-1.5">
-            <div className="grid grid-cols-3 gap-1">
-              {Array.from({ length: 6 }).map((_, i) => (
-                <div key={i} className="border border-gray-300 h-12 bg-white" />
-              ))}
+        </div>
+        <div className="bg-red-700 text-yellow-200 text-[7px] px-2 py-0.5 whitespace-nowrap overflow-hidden">
+          ★★ ยินดีต้อนรับเข้าสู่เว็บไซต์ องค์การบริหารส่วนตำบลตัวอย่าง ★★ ขอเชิญชวนประชาชนชำระภาษี ★★
+        </div>
+        <div className="grid grid-cols-[30%_1fr] gap-1 p-1 text-[7px]">
+          <div className="space-y-px">
+            {menu.map(m => <div key={m} className="bg-blue-800 text-white px-1 py-[1px] truncate">» {m}</div>)}
+            <div className="mt-1 border border-gray-300 text-center p-0.5 text-gray-600">
+              ผู้เข้าชม<br /><span className="font-mono bg-black text-green-400 px-0.5">0012874</span>
             </div>
           </div>
+          <div className="border border-gray-300">
+            <div className="bg-orange-500 text-white font-bold px-1 py-0.5">ข่าวประชาสัมพันธ์</div>
+            {news.map((n, i) => (
+              <div key={n} className="px-1 py-[2px] border-b border-dotted border-gray-300 text-blue-700 underline truncate">
+                • {n} {i < 2 && <span className="text-red-600 font-bold no-underline">new!</span>}
+              </div>
+            ))}
+            <div className="grid grid-cols-3 gap-0.5 p-1">
+              {Array.from({ length: 6 }).map((_, i) => <div key={i} className="h-7 bg-gray-300 border border-gray-400" />)}
+            </div>
+            <p className="text-right text-blue-700 underline px-1 pb-0.5">อ่านทั้งหมด &gt;&gt;</p>
+          </div>
         </div>
+        <div className="bg-blue-900 text-white text-[6px] text-center py-0.5">Best view with IE 1024×768</div>
       </div>
     </div>
   )
 }
 
 function NewMockup() {
+  const services = [['📢', 'ข่าวสาร'], ['📦', 'จัดซื้อจัดจ้าง'], ['📝', 'E-Service'], ['🛡️', 'ร้องเรียน'], ['✅', 'ITA'], ['📞', 'ติดต่อ']]
+  const news = [['15 ก.ย.', 'โครงการปรับปรุงถนน หมู่ 3'], ['10 ก.ย.', 'ประชุมสภาสมัยสามัญ'], ['2 ก.ย.', 'กิจกรรมวันแม่ 2569']]
   return (
     <div className="rounded-xl border border-gray-200 bg-white overflow-hidden shadow-lg">
-      <div className="h-7 bg-white flex items-center gap-1.5 px-2 border-b border-gray-100">
-        <span className="w-2.5 h-2.5 rounded-full bg-red-400" />
-        <span className="w-2.5 h-2.5 rounded-full bg-yellow-400" />
-        <span className="w-2.5 h-2.5 rounded-full bg-green-400" />
-        <span className="ml-2 text-[10px] text-gray-400 font-mono">abt-maesai.go.th</span>
-      </div>
-      <div className="p-3">
-        <div className="h-12 rounded-lg bg-gradient-to-r from-primary to-secondary mb-3 flex items-center px-3">
-          <div className="w-8 h-8 bg-white/30 rounded-full" />
-          <div className="ml-2 w-28 h-2.5 bg-white/50 rounded-full" />
+      <BrowserBar url="abt-maesai.go.th" modern />
+      <div className="p-3 text-left">
+        <div className="flex items-center justify-between mb-2">
+          <div className="flex items-center gap-1.5">
+            <div className="w-6 h-6 rounded-full bg-gradient-to-br from-primary to-secondary" />
+            <p className="text-[11px] font-bold text-gray-900">อบต.แม่สาย</p>
+          </div>
+          <div className="flex gap-0.5"><span className="w-3 h-0.5 bg-gray-400" /><span className="w-3 h-0.5 bg-gray-400" /></div>
         </div>
-        <div className="grid grid-cols-3 gap-2">
-          {Array.from({ length: 6 }).map((_, i) => (
-            <div key={i} className="rounded-lg bg-blue-50 h-14 shadow-sm" />
+        <div className="rounded-lg bg-gradient-to-r from-primary to-secondary p-3 mb-2.5">
+          <p className="text-white text-[12px] font-bold">ยินดีต้อนรับสู่ อบต.แม่สาย</p>
+          <p className="text-blue-100 text-[9px]">บริการประชาชนออนไลน์ ครบ จบ ในที่เดียว</p>
+          <span className="inline-block mt-1.5 bg-white text-primary text-[8px] font-bold px-2 py-0.5 rounded-full">ยื่นคำร้องออนไลน์</span>
+        </div>
+        <div className="grid grid-cols-3 gap-1.5 mb-2.5">
+          {services.map(([icon, label]) => (
+            <div key={label} className="rounded-lg bg-blue-50 py-1.5 text-center">
+              <div className="text-sm leading-none">{icon}</div>
+              <p className="text-[8px] font-semibold text-gray-700 mt-0.5">{label}</p>
+            </div>
           ))}
         </div>
-        <div className="mt-2 h-2 w-2/3 bg-gray-100 rounded-full" />
-        <div className="mt-1.5 h-2 w-1/2 bg-gray-100 rounded-full" />
+        <p className="text-[10px] font-bold text-gray-900 mb-1">ข่าวล่าสุด</p>
+        <div className="space-y-1">
+          {news.map(([d, t]) => (
+            <div key={t} className="flex items-center gap-1.5 rounded-md border border-gray-100 p-1">
+              <div className="w-8 h-6 rounded bg-gradient-to-br from-blue-100 to-blue-200 shrink-0" />
+              <div className="min-w-0">
+                <p className="text-[8px] font-semibold text-gray-800 truncate">{t}</p>
+                <p className="text-[7px] text-gray-400">{d}</p>
+              </div>
+            </div>
+          ))}
+        </div>
       </div>
     </div>
   )
 }
+
+const COMPARE_POINTS = [
+  ['ตัวหนังสือเล็ก ต้องซูมอ่านบนมือถือ', 'ปรับขนาดอัตโนมัติ อ่านง่ายทุกจอ'],
+  ['เมนูยาวเหยียด หาข้อมูลไม่เจอ', 'ปุ่มบริการหลักเห็นทันทีหน้าแรก'],
+  ['ข่าวเป็นลิงก์ยาว ไม่มีรูป ไม่มีวันที่', 'ข่าวเป็นการ์ด มีรูปและวันที่ชัดเจน'],
+  ['ต้องติดต่อสำนักงานเพื่อยื่นเรื่อง', 'ยื่นคำร้อง/ร้องเรียนออนไลน์ได้'],
+]
 
 function Compare() {
   return (
@@ -320,14 +368,28 @@ function Compare() {
           <h2 className="text-2xl sm:text-3xl font-extrabold text-center text-gray-900">เทียบให้เห็นชัด</h2>
           <p className="text-center text-gray-500 mt-2 mb-10">เว็บไซต์หน่วยงานท้องถิ่นทั่วไป เทียบกับเว็บไซต์ที่เราออกแบบ</p>
         </Reveal>
-        <div className="grid sm:grid-cols-2 gap-6 items-start">
+        <div className="grid sm:grid-cols-2 gap-8 items-start">
           <Reveal>
             <p className="text-center font-semibold text-gray-400 mb-3">เว็บไซต์แบบเดิม</p>
             <OldMockup />
+            <ul className="mt-4 space-y-2">
+              {COMPARE_POINTS.map(([bad]) => (
+                <li key={bad} className="flex items-start justify-center sm:justify-start gap-2 text-sm text-gray-500">
+                  <span className="text-red-400 font-bold">✕</span><span>{bad}</span>
+                </li>
+              ))}
+            </ul>
           </Reveal>
           <Reveal>
             <p className="text-center font-semibold text-primary mb-3">เว็บไซต์ของเรา</p>
             <NewMockup />
+            <ul className="mt-4 space-y-2">
+              {COMPARE_POINTS.map(([, good]) => (
+                <li key={good} className="flex items-start justify-center sm:justify-start gap-2 text-sm text-gray-700">
+                  <span className="text-primary font-bold">✓</span><span>{good}</span>
+                </li>
+              ))}
+            </ul>
           </Reveal>
         </div>
       </div>
