@@ -5,7 +5,7 @@ const LINE_URL = 'https://line.me/ti/p/nMKPHfKc_9'   // personal LINE (QR "Copy 
 // Live chat (tawk.to, free). Paste "propertyId/widgetId" from tawk.to → Administration → Chat Widget.
 // While empty, chat buttons fall back to opening LINE.
 const TAWK_ID = '6ac3b058160ba734cb042986/1k466hnfo'
-const DEMO_SITE_URL = '#'                            // TODO: replace with the live Mae Sai อบต. site URL
+const DEMO_SITE_URL = '#'                            // TODO: replace with a live client site URL
 
 // Seller printed on the quotation (ใบเสนอราคา). Seller is an individual, not a company.
 // Address and national ID are deliberately NOT stored here: this file ships in the public
@@ -307,17 +307,17 @@ function NewMockup() {
   const news = [['15 ก.ย.', 'โครงการปรับปรุงถนน หมู่ 3'], ['10 ก.ย.', 'ประชุมสภาสมัยสามัญ'], ['2 ก.ย.', 'กิจกรรมวันแม่ 2569']]
   return (
     <div className="rounded-xl border border-gray-200 bg-white overflow-hidden shadow-lg">
-      <BrowserBar url="abt-maesai.go.th" modern />
+      <BrowserBar url="www.tambon-example.go.th" modern />
       <div className="p-3 text-left">
         <div className="flex items-center justify-between mb-2">
           <div className="flex items-center gap-1.5">
             <div className="w-6 h-6 rounded-full bg-gradient-to-br from-primary to-secondary" />
-            <p className="text-[11px] font-bold text-gray-900">อบต.แม่สาย</p>
+            <p className="text-[11px] font-bold text-gray-900">อบต.ตัวอย่าง</p>
           </div>
           <div className="flex gap-0.5"><span className="w-3 h-0.5 bg-gray-400" /><span className="w-3 h-0.5 bg-gray-400" /></div>
         </div>
         <div className="rounded-lg bg-gradient-to-r from-primary to-secondary p-3 mb-2.5">
-          <p className="text-white text-[12px] font-bold">ยินดีต้อนรับสู่ อบต.แม่สาย</p>
+          <p className="text-white text-[12px] font-bold">ยินดีต้อนรับสู่ อบต.ตัวอย่าง</p>
           <p className="text-blue-100 text-[9px]">บริการประชาชนออนไลน์ ครบ จบ ในที่เดียว</p>
           <span className="inline-block mt-1.5 bg-white text-primary text-[8px] font-bold px-2 py-0.5 rounded-full">ยื่นคำร้องออนไลน์</span>
         </div>
@@ -529,7 +529,7 @@ function QuoteForm({ onPrint }) {
         <p className="font-bold text-gray-900">📄 ดาวน์โหลดใบเสนอราคา</p>
         <p className="text-sm text-gray-500 mt-1 mb-4">ใส่ชื่อหน่วยงาน แล้วบันทึกเป็น PDF ใช้ประกอบการจัดซื้อได้ทันที</p>
         <div className="flex flex-col sm:flex-row gap-3">
-          <input required value={org} onChange={e => setOrg(e.target.value)} placeholder="ชื่อหน่วยงาน เช่น อบต.แม่สาย"
+          <input required value={org} onChange={e => setOrg(e.target.value)} placeholder="ชื่อหน่วยงาน เช่น อบต.ตัวอย่าง"
             className="flex-1 border border-gray-300 rounded-full px-4 py-3 text-sm focus:outline-none focus:border-primary" />
           <button type="submit" className="btn-primary">ดาวน์โหลด PDF</button>
         </div>
