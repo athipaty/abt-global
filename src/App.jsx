@@ -1,10 +1,10 @@
 import { useEffect, useRef, useState } from 'react'
 
 // ── Placeholders — swap these in once you have them ───────────────────────
-const LINE_URL = 'https://lin.ee/your-line-oa-id'   // TODO: replace with your real LINE OA link
+const LINE_URL = 'https://line.me/ti/p/nMKPHfKc_9'   // personal LINE (QR "Copy link"); regenerating the QR in LINE breaks this link
 // Live chat (tawk.to, free). Paste "propertyId/widgetId" from tawk.to → Administration → Chat Widget.
 // While empty, chat buttons fall back to opening LINE.
-const TAWK_ID = ''                                   // TODO: e.g. '64f1c0ffee1234567890abcd/1h9abcdef'
+const TAWK_ID = '6ac3b058160ba734cb042986/1k466hnfo'
 const DEMO_SITE_URL = '#'                            // TODO: replace with the live Mae Sai อบต. site URL
 
 // Seller printed on the quotation (ใบเสนอราคา). Seller is an individual, not a company.
