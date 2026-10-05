@@ -213,7 +213,7 @@ function Hero() {
         <div className="flex flex-wrap justify-center gap-2 mb-6">
           {COMPLIANCE.map(c => <span key={c} className="badge">✅ มาตรฐาน {c}</span>)}
         </div>
-        <h1 className="text-3xl sm:text-5xl font-extrabold text-gray-900 leading-tight max-w-3xl mx-auto">
+        <h1 className="text-3xl sm:text-5xl font-extrabold text-gray-900 leading-[1.5] sm:leading-[1.4] max-w-3xl mx-auto">
           เว็บไซต์ อบต. / เทศบาล<br />
           <span className="text-primary">ที่ทันสมัยและใช้งานจริง</span>
         </h1>
